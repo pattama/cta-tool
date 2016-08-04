@@ -1,0 +1,1 @@
+# Core Tool for Compass Test Automation
