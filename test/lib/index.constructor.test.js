@@ -5,20 +5,10 @@ const assert = chai.assert;
 const expect = chai.expect;
 const sinon = require('sinon');
 const _ = require('lodash');
-const mockrequire = require('mock-require');
 
 const Tool = require('../../lib/index');
 const GLOBALKEY = Symbol.for(Tool.name);
-const DEFAULTDEPENDENCIES = {
-  logger: {
-    info: function() {},
-    author: function() {
-      return {
-        info: function() {},
-      };
-    },
-  },
-};
+const DEFAULTDEPENDENCIES = {};
 const DEFAULTCONFIG = {
   name: 'tool',
   properties: {},
@@ -96,55 +86,6 @@ describe('Tool - constructor', function() {
       });
       it('should not set the instance in the global Map', function() {
         sinon.assert.notCalled(global[GLOBALKEY].set);
-      });
-    });
-
-    context('when valid and logger instance exists in dependencies', function() {
-      let tool;
-      let mockLoggerAuthorResult;
-      before(function() {
-        mockLoggerAuthorResult = {
-          info: sinon.stub(),
-        };
-        sinon.stub(DEFAULTDEPENDENCIES.logger, 'author').withArgs(DEFAULTCONFIG.name).returns(mockLoggerAuthorResult);
-        tool = new Tool(DEFAULTDEPENDENCIES, DEFAULTCONFIG);
-      });
-      after(function() {
-        DEFAULTDEPENDENCIES.logger.author.restore();
-      });
-      it('should set instance returned by dependencies.logger.author() method as a property of the Tool instance', function() {
-        expect(tool).to.have.property('logger', mockLoggerAuthorResult);
-      });
-      it('should log a logger initialized message', function() {
-        sinon.assert.calledWith(mockLoggerAuthorResult.info, `Initialized logger for tool ${tool.name}`);
-      });
-    });
-
-    context('when valid and logger instance does not exist in dependencies', function() {
-      let tool;
-      const dependencies = _.cloneDeep(DEFAULTDEPENDENCIES);
-      delete dependencies.logger;
-      let MockLoggerConstructor;
-      let mockLogger;
-      let mockLoggerAuthorResult;
-      before(function() {
-        mockLoggerAuthorResult = {
-          info: sinon.stub(),
-        };
-        mockLogger = {
-          author: sinon.stub().withArgs(DEFAULTCONFIG.name).returns(mockLoggerAuthorResult),
-        };
-        MockLoggerConstructor = sinon.stub().returns(mockLogger);
-        mockrequire('cta-logger', MockLoggerConstructor);
-        tool = new Tool(dependencies, DEFAULTCONFIG);
-      });
-      after(function() {
-      });
-      it('should create a new Logger', function() {
-        sinon.assert.called(MockLoggerConstructor);
-      });
-      it('should set instance returned by new logger.author() method as a property of the Tool instance', function() {
-        expect(tool).to.have.property('logger', mockLoggerAuthorResult);
       });
     });
   });
