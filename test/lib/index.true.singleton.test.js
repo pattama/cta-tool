@@ -16,17 +16,18 @@ describe('True singleton', () => {
   it('should return same instance', (done) => {
     instances.one = new OneTool(dependencies, config);
     instances.one.foo = 'bar';
+    const uidone = instances.one.uid; // store in memory the uid value after first invocation of constructor
     // setTimeout(() => {
     instances.two = new OneTool(dependencies, config);
     assert.strictEqual(instances.two.foo, 'bar');
-    assert.strictEqual(instances.two.uid, instances.one.uid);
+    assert.strictEqual(instances.two.uid, uidone);
     instances.two.bar = 'foo';
     assert.strictEqual(instances.one.bar, 'foo');
     // setTimeout(() => {
     instances.three = new OneTool(dependencies, config);
     assert.strictEqual(instances.three.foo, 'bar');
     assert.strictEqual(instances.three.bar, 'foo');
-    assert.strictEqual(instances.three.uid, instances.one.uid);
+    assert.strictEqual(instances.three.uid, uidone);
     done();
     // }, 10);
     // }, 10);
