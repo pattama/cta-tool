@@ -5,10 +5,20 @@ const assert = chai.assert;
 const expect = chai.expect;
 const sinon = require('sinon');
 const _ = require('lodash');
+const mockrequire = require('mock-require');
 
 const Tool = require('../../lib/index');
 const GLOBALKEY = Symbol.for(Tool.name);
-const DEFAULTDEPENDENCIES = {};
+const DEFAULTDEPENDENCIES = {
+  logger: {
+    info: function() {},
+    author: function() {
+      return {
+        info: function() {},
+      };
+    },
+  },
+};
 const DEFAULTCONFIG = {
   name: 'tool',
   properties: {},
@@ -74,14 +84,9 @@ describe('Tool - constructor', function() {
     context('when valid', function() {
       let tool;
       before(function() {
-        sinon.stub(Tool.prototype, '_doConstruct');
         tool = new Tool(DEFAULTDEPENDENCIES, DEFAULTCONFIG);
       });
       after(function() {
-        Tool.prototype._doConstruct.restore();
-      });
-      it('should call _doConstruct method', function() {
-        sinon.assert.called(Tool.prototype._doConstruct);
       });
       it('instantiate with 2 params', () => {
         assert.deepEqual(tool.dependencies, DEFAULTDEPENDENCIES);
@@ -91,6 +96,55 @@ describe('Tool - constructor', function() {
       });
       it('should not set the instance in the global Map', function() {
         sinon.assert.notCalled(global[GLOBALKEY].set);
+      });
+    });
+
+    context('when valid and logger instance exists in dependencies', function() {
+      let tool;
+      let mockLoggerAuthorResult;
+      before(function() {
+        mockLoggerAuthorResult = {
+          info: sinon.stub(),
+        };
+        sinon.stub(DEFAULTDEPENDENCIES.logger, 'author').withArgs(DEFAULTCONFIG.name).returns(mockLoggerAuthorResult);
+        tool = new Tool(DEFAULTDEPENDENCIES, DEFAULTCONFIG);
+      });
+      after(function() {
+        DEFAULTDEPENDENCIES.logger.author.restore();
+      });
+      it('should set instance returned by dependencies.logger.author() method as a property of the Tool instance', function() {
+        expect(tool).to.have.property('logger', mockLoggerAuthorResult);
+      });
+      it('should log a logger initialized message', function() {
+        sinon.assert.calledWith(mockLoggerAuthorResult.info, `Initialized logger for tool ${tool.name}`);
+      });
+    });
+
+    context('when valid and logger instance does not exist in dependencies', function() {
+      let tool;
+      const dependencies = _.cloneDeep(DEFAULTDEPENDENCIES);
+      delete dependencies.logger;
+      let MockLoggerConstructor;
+      let mockLogger;
+      let mockLoggerAuthorResult;
+      before(function() {
+        mockLoggerAuthorResult = {
+          info: sinon.stub(),
+        };
+        mockLogger = {
+          author: sinon.stub().withArgs(DEFAULTCONFIG.name).returns(mockLoggerAuthorResult),
+        };
+        MockLoggerConstructor = sinon.stub().returns(mockLogger);
+        mockrequire('cta-logger', MockLoggerConstructor);
+        tool = new Tool(dependencies, DEFAULTCONFIG);
+      });
+      after(function() {
+      });
+      it('should create a new Logger', function() {
+        sinon.assert.called(MockLoggerConstructor);
+      });
+      it('should set instance returned by new logger.author() method as a property of the Tool instance', function() {
+        expect(tool).to.have.property('logger', mockLoggerAuthorResult);
       });
     });
   });
@@ -111,7 +165,6 @@ describe('Tool - constructor', function() {
       let instance;
       before(function() {
         sinon.stub(Tool.prototype, '_getIdentifier', getIdentifier);
-        sinon.stub(Tool.prototype, '_doConstruct');
         identifier = getIdentifier(config.properties);
         delete global[GLOBALKEY];
         instance = new Tool(DEFAULTDEPENDENCIES, config);
@@ -119,12 +172,7 @@ describe('Tool - constructor', function() {
 
       after(function() {
         Tool.prototype._getIdentifier.restore();
-        Tool.prototype._doConstruct.restore();
         delete global[GLOBALKEY];
-      });
-
-      it('should call _doConstruct method', function() {
-        sinon.assert.called(Tool.prototype._doConstruct);
       });
 
       it('should set a new instance in the global Map', function() {
@@ -143,7 +191,6 @@ describe('Tool - constructor', function() {
       let identifier;
       let instance;
       before(function() {
-        sinon.stub(Tool.prototype, '_doConstruct');
         sinon.stub(Tool.prototype, '_getIdentifier', getIdentifier);
         identifier = getIdentifier(config.properties);
         global[GLOBALKEY] = new Map();
@@ -152,7 +199,6 @@ describe('Tool - constructor', function() {
       });
 
       after(function() {
-        Tool.prototype._doConstruct.restore();
         Tool.prototype._getIdentifier.restore();
         global[GLOBALKEY].clear();
       });
