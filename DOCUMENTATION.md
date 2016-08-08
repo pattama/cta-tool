@@ -11,6 +11,7 @@ Tool constructorNon-Singleton mode: Creates a new Tool InstanceSingleton mode:
 | Param | Type | Description |
 | --- | --- | --- |
 | dependencies | <code>Object</code> | tool's dependencies injected by Cement according to tool's configuration |
+| [dependencies.logger] | <code>Logger</code> | instance of a Logger |
 | configuration | <code>Object</code> | configuration of the Tool from the Cement |
 | configuration.name | <code>String</code> | name or unique id of the tool |
 | [configuration.singleton] | <code>Boolean</code> | whether the instance should be a Singleton or not |
