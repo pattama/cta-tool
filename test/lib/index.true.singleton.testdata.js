@@ -11,11 +11,11 @@ class OneTool extends Tool {
     }
 
     const uid = shortid.generate();
-    console.log(`Setting uid to ${uid}`);
+    // console.log(`Setting uid to ${uid}`);
     this.uid = uid;
 
     this.fullyInitialized = true;
-    console.log(this.uid);
+    // console.log(this.uid);
   }
 }
 

@@ -35,19 +35,19 @@ describe('Tool - constructor', function() {
       global[GLOBALKEY].clear();
     });
 
-    context(`when missing/incorrect 'dependencies' argument`, function() {
+    context('when missing/incorrect \'dependencies\' argument', function() {
       it('should throw an Error', function() {
         return expect(function() {
           return new Tool(null, DEFAULTCONFIG);
-        }).to.throw(Error, `missing/incorrect 'dependencies' object argument`);
+        }).to.throw(Error, 'missing/incorrect \'dependencies\' object argument');
       });
     });
 
-    context(`when missing/incorrect 'configuration' argument`, function() {
+    context('when missing/incorrect \'configuration\' argument', function() {
       it('should throw an Error', function() {
         return expect(function() {
           return new Tool(DEFAULTDEPENDENCIES, null);
-        }).to.throw(Error, `missing/incorrect 'configuration' object argument`);
+        }).to.throw(Error, 'missing/incorrect \'configuration\' object argument');
       });
     });
 
@@ -57,7 +57,7 @@ describe('Tool - constructor', function() {
       it('should throw an error', function() {
         return expect(function() {
           return new Tool(DEFAULTDEPENDENCIES, config);
-        }).to.throw(Error, `missing/incorrect 'name' string property in configuration`);
+        }).to.throw(Error, 'missing/incorrect \'name\' string property in configuration');
       });
     });
 
@@ -67,7 +67,7 @@ describe('Tool - constructor', function() {
       it('should throw an error', function() {
         return expect(function() {
           return new Tool(DEFAULTDEPENDENCIES, config);
-        }).to.throw(Error, `incorrect 'singleton' boolean property in configuration`);
+        }).to.throw(Error, 'incorrect \'singleton\' boolean property in configuration');
       });
     });
 
@@ -77,7 +77,7 @@ describe('Tool - constructor', function() {
       it('should throw an error', function() {
         return expect(function() {
           return new Tool(DEFAULTDEPENDENCIES, config);
-        }).to.throw(Error, `incorrect 'properties' object property in configuration`);
+        }).to.throw(Error, 'incorrect \'properties\' object property in configuration');
       });
     });
 
