@@ -96,7 +96,7 @@ The Tool Configuration has three required fields.
 
 - name - define the tool name
 - singleton - indicate whether the tool is singleton
-- properties - provides properties
+- properties - provide properties
 
 These values are avaliable within Tool class.
 
