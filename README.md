@@ -6,7 +6,7 @@ Tool Modules for Compass Test Automation, One of Libraries in CTA-OSS Framework
 
 ### Overview
 
-This module provides the **Tool** class to extend.
+This module provides the **Tool** class to extend. We provides the **Tool** as a tool to be implemented any _functionality_ across bricks and framework.
 
 ## Guidelines
 
