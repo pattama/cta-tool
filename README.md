@@ -111,6 +111,4 @@ These values are _avaliable_ within **Tool** class.
 
 ## To Do
 
-
-
 * More Points
