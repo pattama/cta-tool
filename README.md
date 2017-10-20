@@ -97,18 +97,20 @@ class SampleTool extends Tool {
 }
 ```
 
-The Tool Configuration has three required fields.
+The **Tool Configuration** has _three **required** fields_.
 
-- name - define the tool name
-- singleton - indicate whether the tool is singleton
-- properties - provide properties
+- **name** - define the tool name
+- **singleton** - indicate whether the tool is singleton
+- **properties** - provide properties
 
-These values are avaliable within Tool class.
+These values are _avaliable_ within **Tool** class.
 
 [back to top](#guidelines)
 
 ------
 
 ## To Do
+
+
 
 * More Points
