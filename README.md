@@ -99,9 +99,9 @@ class SampleTool extends Tool {
 
 The **Tool Configuration** has _three **required** fields_.
 
-- **name** - define the tool name
-- **singleton** - indicate whether the tool is singleton
-- **properties** - provide properties
+- **name** - define the tool _name_
+- **singleton** - indicate whether the tool is _singleton_
+- **properties** - provide _properties_
 
 These values are _avaliable_ within **Tool** class.
 
