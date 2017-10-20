@@ -62,14 +62,14 @@ In a constructor, the **Tool** uses _dependencies injection_ to make the depende
 ```javascript
 class SampleTool extends Tool {
   constructor(dependencies, configuration) {
-    super();  // to bind the dependencies andconfiguration
+    super(dependencies, configuration);  // to bind the dependencies and configuration
   }
 }
 
 module.exports = SampleTool;
 ```
 
-By calling **super()**, the _dependencies_ and _configuration_ are bound and available within class context. They can be accesed in any method via **_this.dependencies_** and **_this.configuration_**.
+By calling **super()**, the _dependencies_ and _configuration_ are bound and available within class context. They can be accesed in any method via **_this.dependencies_** and **_this.configuration_**. You can provide **the configuration**, while **the dependencies** are provided by _cement_. The provided configuration _will be validated_ in **contructor**.
 
 [back to top](#guidelines)
 
@@ -83,6 +83,11 @@ const configuration = {
 };
 
 class SampleTool extends Tool {
+  constructor(dependencies, configuration) {
+    super(dependencies, configuration);
+    ...
+  }
+
   otherMethod() {
     const name = this.name;
     const singleton = this.singleton;
