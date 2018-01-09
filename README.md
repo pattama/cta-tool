@@ -1,4 +1,7 @@
-# cta-tool [ ![build status](https://git.sami.int.thomsonreuters.com/compass/cta-tool/badges/master/build.svg)](https://git.sami.int.thomsonreuters.com/compass/cta-tool/commits/master) [![coverage report](https://git.sami.int.thomsonreuters.com/compass/cta-tool/badges/master/coverage.svg)](https://git.sami.int.thomsonreuters.com/compass/cta-tool/commits/master)
+# cta-tool
+[![Build Status](https://travis-ci.org/thomsonreuters/cta-tool.svg?branch=master)](https://travis-ci.org/thomsonreuters/cta-tool)
+[![Coverage Status](https://coveralls.io/repos/github/thomsonreuters/cta-tool/badge.svg?branch=master)](https://coveralls.io/github/thomsonreuters/cta-tool?branch=master)
+[![codecov](https://codecov.io/gh/thomsonreuters/cta-tool/branch/master/graph/badge.svg)](https://codecov.io/gh/thomsonreuters/cta-tool)
 
 Tool Modules for Compass Test Automation, One of Libraries in CTA-OSS Framework
 
